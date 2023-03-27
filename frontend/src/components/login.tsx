@@ -1,13 +1,13 @@
 import {useAuthContext} from "../context/auth.context";
-import {ChangeEvent, FormEvent, useState} from "react";
-import {useNavigate} from 'react-router-dom';
+import {ChangeEvent, FormEvent, useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 export default function Login() {
     const navigate = useNavigate();
-    const {login, loginError} = useAuthContext();
+    const {login, loginError, token} = useAuthContext();
 
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
     const handleEmail = (event: ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -20,11 +20,14 @@ export default function Login() {
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
 
-        const success = await login(email, password);
-        if(success) {
-            navigate('/admin');
-        }
+        await login(email, password);
     };
+
+    useEffect(() => {
+        if (token !== "") {
+            navigate("/admin");
+        }
+    }, [token]);
 
     return (
         <div className="p-8 bg-secondary rounded-lg">

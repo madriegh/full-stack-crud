@@ -1,13 +1,13 @@
-import { getClients} from "../../services/clientsService";
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {getClients} from "../../services/clientsService";
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import {useAuthContext} from "../../context/auth.context";
 
 
 export default function ClientList() {
     let navigate = useNavigate();
 
-    const { token } = useAuthContext();
+    const {token} = useAuthContext();
 
     const [loading, setLoading] = useState(true);
     const [clients, setClients] = useState<any[]>([]);
@@ -26,7 +26,9 @@ export default function ClientList() {
     return (
         <>
             <h1 className="text-2xl font-bold text-gray-800 tracking-tight mb-12">Clients</h1>
-            <button className="text-primary font-bold underline" onClick={() => { navigate("new");}}>
+            <button className="text-primary font-bold underline" onClick={() => {
+                navigate("new");
+            }}>
                 + New client
             </button>
             <div className="flex items-center justify-between text-sm tracking-widest uppercase mt-4">
@@ -48,7 +50,7 @@ export default function ClientList() {
                                 {clients.map((client) => (
                                     <ClientRow
                                         client={client}
-                                        key={client.id} />
+                                        key={client.id}/>
                                 ))}
                                 </tbody>
                             </table>
@@ -60,7 +62,7 @@ export default function ClientList() {
     )
 }
 
-function ClientRow({ client } : any) {
+function ClientRow({client}: any) {
     return (
         <tr className="border-b dark:border-neutral-500">
             <td className="whitespace-nowrap px-6 py-4 font-medium">{client.id}</td>

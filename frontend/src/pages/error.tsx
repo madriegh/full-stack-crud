@@ -1,12 +1,12 @@
-import { useRouteError, isRouteErrorResponse } from "react-router-dom";
+import {isRouteErrorResponse, useRouteError} from "react-router-dom";
 
 import React from 'react';
 
 export default function ErrorPage() {
-    const error : any = useRouteError();
+    const error: any = useRouteError();
 
-    let errorMessage : string = error.message || "Unknown Error";
-    if(isRouteErrorResponse(error)) {
+    let errorMessage: string = error.message || "Unknown Error";
+    if (isRouteErrorResponse(error)) {
         errorMessage = `${error.status} ${error.statusText}`
     }
 

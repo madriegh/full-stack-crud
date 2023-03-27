@@ -2,27 +2,27 @@ import Logo from "../../logo.svg";
 import {Link, useNavigate} from "react-router-dom";
 import React, {ChangeEvent, FormEvent, useState} from "react";
 import {registerAdmin} from "../../services/authService";
+import {toast} from "react-toastify";
 
 export default function RegisterPage() {
     const navigate = useNavigate();
-    const [registerError, setRegisterError] = useState<string>('');
 
     const [validationErrors, setValidationErrors] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        confirmEmail: '',
-        password: '',
-        confirmPassword: '',
+        firstName: "",
+        lastName: "",
+        email: "",
+        confirmEmail: "",
+        password: "",
+        confirmPassword: "",
     });
 
     const [form, setForm] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        confirmEmail: '',
-        password: '',
-        confirmPassword: '',
+        firstName: "",
+        lastName: "",
+        email: "",
+        confirmEmail: "",
+        password: "",
+        confirmPassword: "",
     });
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -36,46 +36,48 @@ export default function RegisterPage() {
         event.preventDefault();
 
         let newValidationErrors = {
-            firstName: '',
-            lastName: '',
-            email: '',
-            confirmEmail: form.email !== form.confirmEmail ? 'Email confirmation does not match.' : '',
-            password: '',
-            confirmPassword: form.password !== form.confirmPassword ? 'Password confirmation does not match.' : '',
+            firstName: "",
+            lastName: "",
+            email: "",
+            confirmEmail: form.email !== form.confirmEmail ? "Email confirmation does not match." : "",
+            password: "",
+            confirmPassword: form.password !== form.confirmPassword ? "Password confirmation does not match." : "",
         };
 
         setValidationErrors(newValidationErrors);
 
-        const valid = Object.values(newValidationErrors).every(x => x === '');
+        const valid = Object.values(newValidationErrors).every(x => x === "");
 
-        if(!valid) {
+        if (!valid) {
             return;
         }
 
         const name = `${form.firstName} ${form.lastName}`;
 
         try {
-            await registerAdmin(name, form.email, form.password).then(() => {
-                setForm({
-                    firstName: '',
-                    lastName: '',
-                    email: '',
-                    confirmEmail: '',
-                    password: '',
-                    confirmPassword: '',
-                });
-
-                navigate('/', { state: { message: "You account was successfully created. Log in with your email and password." } });
+            await registerAdmin(name, form.email, form.password);
+            setForm({
+                firstName: "",
+                lastName: "",
+                email: "",
+                confirmEmail: "",
+                password: "",
+                confirmPassword: "",
             });
+
+            navigate("/");
+            toast.success(
+                "Your account was successfully created. Log in with your email and password.",
+                {toastId: "registerSuccess"}
+            );
         } catch (err) {
-            setRegisterError('Something went wrong. Please try again later.');
+            toast.error("Something went wrong. Please try again later.");
         }
     };
 
     return (
         <div className="container mx-auto my-12">
             <img className="w-1/5 mb-12 mx-auto" src={Logo} alt="Logo"/>
-            {registerError && <div> {registerError}</div>}
             <form onSubmit={handleSubmit} className="w-1/2 mx-auto">
                 <div className="mb-4">
                     <label htmlFor="firstName"

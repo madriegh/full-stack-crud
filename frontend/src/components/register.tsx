@@ -1,5 +1,5 @@
-import { ChevronRightIcon } from "@heroicons/react/24/solid";
-import { Navigate, useNavigate } from 'react-router-dom';
+import {ChevronRightIcon} from "@heroicons/react/24/solid";
+import {useNavigate} from 'react-router-dom';
 
 export default function Register() {
     let navigate = useNavigate();
@@ -9,7 +9,7 @@ export default function Register() {
             <h1 className="text-2xl font-bold text-gray-800 tracking-tight">Create a new account</h1>
             <div>
                 <p>
-                   Create a profile to
+                    Create a profile to
                 </p>
                 <p>
                     <ChevronRightIcon className="inline h-4 w-4"/> Manage your clients
@@ -21,7 +21,9 @@ export default function Register() {
 
             <div className="mt-6">
                 <button
-                    onClick={() => { navigate("/register");}}
+                    onClick={() => {
+                        navigate("/register");
+                    }}
                     className="px-4 py-2 text-white bg-primary rounded-md font-bold">
                     Create account
                 </button>
