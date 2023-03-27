@@ -55,9 +55,19 @@ class ClientController extends Controller
         return $this->sendResponse(new ClientResource($client), 'Client retrieved successfully.');
     }
 
-    public function update(Request $request, Client $client)
+    public function update(Request $request, $id)
     {
         $user = $request->get('user');
+        $client = Client::find($id);
+
+        if (!$client) {
+            return $this->sendError('Client not found.');
+        }
+
+        if($client->admin_id != $user->id) {
+            return $this->sendError('Unauthorized');
+        }
+
         $input = $request->all();
 
         $validator = Validator::make($input, [
@@ -76,8 +86,19 @@ class ClientController extends Controller
         return $this->sendResponse(new ClientResource($client), 'Client updated successfully.');
     }
 
-    public function destroy(Client $client)
+    public function destroy(Request $request, $id)
     {
+        $user = $request->get('user');
+        $client = Client::find($id);
+
+        if (!$client) {
+            return $this->sendError('Client not found.');
+        }
+
+        if($client->admin_id != $user->id) {
+            return $this->sendError('Unauthorized');
+        }
+
         $client->delete();
 
         return $this->sendResponse([], 'Client deleted successfully.');

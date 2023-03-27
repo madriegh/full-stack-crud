@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,5 +21,9 @@ Route::controller(AuthController::class)->group(function(){
 });
 
 Route::middleware('auth')->group( function () {
-    Route::resource('clients', ClientController::class);
+    Route::get('clients', [ClientController::class, 'index']);
+    Route::post('clients', [ClientController::class, 'store']);
+    Route::get('clients/{id}', [ClientController::class, 'show']);
+    Route::post('clients/{id}', [ClientController::class, 'update']);
+    Route::delete('clients/{id}', [ClientController::class, 'destroy']);
 });
