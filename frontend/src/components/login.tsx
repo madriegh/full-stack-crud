@@ -24,7 +24,7 @@ export default function Login() {
     };
 
     useEffect(() => {
-        if (token !== "") {
+        if (!!token) {
             navigate("/admin");
         }
     }, [token]);

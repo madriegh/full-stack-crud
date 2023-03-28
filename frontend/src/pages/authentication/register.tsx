@@ -26,10 +26,10 @@ export default function RegisterPage() {
     });
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setForm({
-            ...form,
+        setForm((prev) => ({
+            ...prev,
             [event.target.id]: event.target.value,
-        });
+        }));
     };
 
     const handleSubmit = async (event: FormEvent) => {

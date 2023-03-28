@@ -13,15 +13,18 @@ export default function ClientList() {
     const [clients, setClients] = useState<any[]>([]);
 
     useEffect(() => {
+        if(!token){
+            return;
+        }
         setLoading(true);
-        getClients(token ?? 'notoken').then((data) => {
+        getClients(token).then((data) => {
             setClients(data.data);
             setLoading(false);
         })
             .catch((err) => {
                 console.log(err.message);
             });
-    }, [setLoading, setClients]);
+    }, [setLoading, setClients, token]);
 
     return (
         <>

@@ -1,8 +1,17 @@
 import React from "react";
 import {Link, Outlet} from "react-router-dom";
 import Logo from "../logo.svg";
+import {useAuthContext} from "../context/auth.context";
+import {useNavigate} from 'react-router-dom';
 
 export default function RootLayout() {
+    let navigate = useNavigate();
+    const {logout} = useAuthContext();
+
+    const logoutAdmin = () => {
+       logout();
+    }
+
     return (
         <section className="bg-white h-screen">
             <div className="container px-6 py-8 mx-auto h-full">
@@ -28,8 +37,7 @@ export default function RootLayout() {
                         <div>
                             <hr className="bg-gray-800 my-8"/>
                             <nav>
-                                <Link className="text-sm tracking-widest uppercase text-gray-800"
-                                      to="/logout">Logout</Link>
+                                <a className="text-sm tracking-widest uppercase text-gray-800" onClick={logoutAdmin}>Logout</a>
                             </nav>
                         </div>
                     </div>
