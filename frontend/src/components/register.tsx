@@ -9,7 +9,7 @@ export default function Register() {
             <h1 className="text-2xl font-bold text-gray-800 tracking-tight">Create a new account</h1>
             <div>
                 <p>
-                    Create a profile to
+                    Create an admin profile to
                 </p>
                 <p>
                     <ChevronRightIcon className="inline h-4 w-4"/> Manage your clients

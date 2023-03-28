@@ -1,7 +1,8 @@
-import {getClients} from "../../services/clientsService";
-import React, {useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {getClients, deleteClient} from "../../services/clientsService";
+import React, {useCallback, useEffect, useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import {useAuthContext} from "../../context/auth.context";
+import {toast} from "react-toastify";
 
 
 export default function ClientList() {
@@ -20,11 +21,24 @@ export default function ClientList() {
         getClients(token).then((data) => {
             setClients(data.data);
             setLoading(false);
-        })
-            .catch((err) => {
-                console.log(err.message);
+        }).catch((err) => {
+                toast.error(`Could not fetch clients: ${err}`);
+                setClients([]);
+                return;
             });
     }, [setLoading, setClients, token]);
+
+    const handleDelete = useCallback((id: string) => {
+        if(!token){
+            return;
+        }
+        deleteClient(token, id).then((data) => {
+        }).catch((err) => {
+            toast.error(`Could not delete client: ${err}`);
+        }).then(() => {
+            setClients(prev => prev.filter(c => c.id !== id))
+        })
+    }, [token]);
 
     return (
         <>
@@ -47,13 +61,16 @@ export default function ClientList() {
                                     <th scope="col" className="px-6 py-4">#</th>
                                     <th scope="col" className="px-6 py-4">Name</th>
                                     <th scope="col" className="px-6 py-4">Email</th>
+                                    <th scope="col" className="px-6 py-4"/>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {clients.map((client) => (
                                     <ClientRow
                                         client={client}
-                                        key={client.id}/>
+                                        key={client.id}
+                                        handleDelete={()=>handleDelete(client.id)}
+                                    />
                                 ))}
                                 </tbody>
                             </table>
@@ -65,12 +82,20 @@ export default function ClientList() {
     )
 }
 
-function ClientRow({client}: any) {
+function ClientRow({client, handleDelete}: any) {
+    const {token} = useAuthContext();
+
+
+
     return (
         <tr className="border-b dark:border-neutral-500">
             <td className="whitespace-nowrap px-6 py-4 font-medium">{client.id}</td>
             <td className="whitespace-nowrap px-6 py-4">{client.name}</td>
             <td className="whitespace-nowrap px-6 py-4">{client.email}</td>
+            <td className="whitespace-nowrap px-6 py-4 underline flex gap-4">
+                <Link to={`${client.id}`}>Edit</Link>
+                <a className="cursor-pointer" onClick={handleDelete}>Delete</a>
+            </td>
         </tr>
     );
 }

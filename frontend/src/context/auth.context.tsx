@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {loginAdmin} from "../services/authService";
 
 interface AuthValue {
@@ -20,7 +20,7 @@ const AuthContext = React.createContext<AuthValue>(
 );
 
 export function AuthContextProvider({children}: AuthProps) {
-    const [token, setToken] = useState<string | undefined>("");
+    const [token, setToken] = useLocalStorage("api-token", "");
     const [name, setName] = useState<string | undefined>("");
     const [loginError, setLoginError] = useState<string | undefined>("");
 
@@ -35,8 +35,8 @@ export function AuthContextProvider({children}: AuthProps) {
     };
 
     const logout = () => {
-        setToken(undefined);
-        setName(undefined);
+        setToken("");
+        setName("");
     };
 
     return (
@@ -55,3 +55,19 @@ export function AuthContextProvider({children}: AuthProps) {
 export function useAuthContext() {
     return React.useContext(AuthContext);
 }
+
+function getStorageValue(key: string, defaultValue: string) {
+    return localStorage.getItem(key) || defaultValue;
+}
+
+export const useLocalStorage = (key: string, defaultValue: string) : [string, Dispatch<SetStateAction<string>>] => {
+    const [value, setValue] = useState<string>(() => {
+        return getStorageValue(key, defaultValue);
+    });
+
+    useEffect(() => {
+        localStorage.setItem(key, value);
+    }, [key, value]);
+
+    return [value, setValue];
+};

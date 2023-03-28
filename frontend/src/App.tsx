@@ -30,7 +30,7 @@ function App() {
                             element: <ClientList/>,
                         },
                         {
-                            path: "client/:id",
+                            path: "clients/:id",
                             element: <ClientEdit/>
                         },
                         {

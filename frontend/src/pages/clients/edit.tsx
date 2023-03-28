@@ -1,18 +1,37 @@
-import React, {ChangeEvent, FormEvent, useState} from "react";
-import {registerAdmin} from "../../services/authService";
+import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {toast} from "react-toastify";
-import {useNavigate} from 'react-router-dom';
-import {createClient} from "../../services/clientsService";
+import {useNavigate, useParams} from 'react-router-dom';
+import {createClient, getClient, updateClient} from "../../services/clientsService";
 import {useAuthContext} from "../../context/auth.context";
 
 export default function ClientEdit() {
-    let navigate = useNavigate();
-    const {token} = useAuthContext();
-
+    const [loading, setLoading] = useState(true);
     const [form, setForm] = useState({
         name: "",
         email: "",
     });
+
+    let navigate = useNavigate();
+    const {token} = useAuthContext();
+    const {id} = useParams();
+
+    useEffect(() => {
+        if(!token){
+            return;
+        }
+
+        if(!id) {
+            return;
+        }
+
+        setLoading(true);
+        getClient(token, id).then((data) => {
+            setForm(data.data);
+            setLoading(false);
+        }).catch((err) => {
+            toast.error(`Could not fetch client: ${err}`);
+            });
+    }, [setLoading, setForm, token]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setForm((prev) => ({
@@ -36,7 +55,11 @@ export default function ClientEdit() {
         }
 
         try {
-            await createClient(token, form)
+            if(id) {
+                await updateClient(token, form, id)
+            } else {
+                await createClient(token, form)
+            }
             navigate("/admin/clients");
             toast.success(
                 "Client successfully created."
@@ -70,7 +93,8 @@ export default function ClientEdit() {
                            placeholder="name@example.com" required/>
                 </div>
                 <button type="submit"
-                        className="mt-4 mb-2 px-4 py-2 text-white bg-primary rounded-md font-bold">Create client
+                        className="mt-4 mb-2 px-4 py-2 text-white bg-primary rounded-md font-bold">
+                    {id ? 'Update client' : 'Create client'}
                 </button>
             </form>
         </div>

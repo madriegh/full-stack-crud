@@ -37,7 +37,7 @@ export default function RootLayout() {
                         <div>
                             <hr className="bg-gray-800 my-8"/>
                             <nav>
-                                <a className="text-sm tracking-widest uppercase text-gray-800" onClick={logoutAdmin}>Logout</a>
+                                <a className="text-sm tracking-widest uppercase text-gray-800 cursor-pointer" onClick={logoutAdmin}>Logout</a>
                             </nav>
                         </div>
                     </div>

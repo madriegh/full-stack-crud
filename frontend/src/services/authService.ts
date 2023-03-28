@@ -36,7 +36,6 @@ export function loginAdmin(email: string, password: string): Promise<LoginInfo> 
             return response.json();
         })
         .then((data) => {
-            console.log(data);
             return {
                 token: data.data.token,
                 name: data.data.name

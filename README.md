@@ -19,9 +19,10 @@ To run:
 ### Future improvements
 - More descriptive error handling from backend
 - Advanced authentication with JWT
-- Email confirmation flow
+- Email confirmation flow, forget password, profile management etc
 - Pagination, search and filtering on list view
 - Consolidation of components in frontend
 - Localisation
 - Comments and documentation
 - Generalize backend authorization policy
+- Responsive design

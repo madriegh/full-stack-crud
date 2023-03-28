@@ -144,8 +144,7 @@ export default function RegisterPage() {
                 </div>
                 {validationErrors.confirmPassword && <div> {validationErrors.confirmPassword}</div>}
                 <button type="submit"
-                        className="mt-4 mb-2 px-4 py-2 text-white bg-primary rounded-md font-bold">Create
-                    an account
+                        className="mt-4 mb-2 px-4 py-2 text-white bg-primary rounded-md font-bold">Create account
                 </button>
                 <p className="text-sm font-light text-gray-500">
                     Already have an account? <Link to="/"> Login here.</Link>
