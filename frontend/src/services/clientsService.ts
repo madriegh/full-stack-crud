@@ -1,5 +1,5 @@
 export function getClients(token: string) {
-    return fetch(`${process.env.REACT_APP_API_URL}/clients`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/api/clients`, {
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
             'Authorization': token,
@@ -13,7 +13,7 @@ export function getClients(token: string) {
 }
 
 export function getClient(token: string, id: string) {
-    return fetch(`${process.env.REACT_APP_API_URL}/clients/${id}`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/api/clients/${id}`, {
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
             'Authorization': token,
@@ -26,17 +26,18 @@ export function getClient(token: string, id: string) {
     });
 }
 
-export function createClient(token: string, {name, email}: Client) {
-    return fetch(`${process.env.REACT_APP_API_URL}/clients`, {
+export function createClient(token: string, {name, email}: Client, file: File) {
+    let formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('picture', file);
+
+    return fetch(`${process.env.REACT_APP_API_URL}/api/clients`, {
         method: 'POST',
         headers: {
-            'Content-type': 'application/json; charset=UTF-8',
             'Authorization': token,
         },
-        body: JSON.stringify({
-            name: name,
-            email: email,
-        }),
+        body: formData
     }).then(data => {
         if(data.status !== 200) {
             throw new Error('Could not create client');
@@ -44,17 +45,18 @@ export function createClient(token: string, {name, email}: Client) {
     });
 }
 
-export function updateClient(token: string, {name, email}: Client, id: string) {
-    return fetch(`${process.env.REACT_APP_API_URL}/clients/${id}`, {
+export function updateClient(token: string, {name, email}: Client, id: string, file: File) {
+    let formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('picture', file);
+
+    return fetch(`${process.env.REACT_APP_API_URL}/api/clients/${id}`, {
         method: 'POST',
         headers: {
-            'Content-type': 'application/json; charset=UTF-8',
             'Authorization': token,
         },
-        body: JSON.stringify({
-            name: name,
-            email: email,
-        }),
+        body: formData,
     }).then(data => {
         if(data.status !== 200) {
             throw new Error('Could not update client');
@@ -63,7 +65,7 @@ export function updateClient(token: string, {name, email}: Client, id: string) {
 }
 
 export function deleteClient(token: string, id: string) {
-    return fetch(`${process.env.REACT_APP_API_URL}/clients/${id}`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/api/clients/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',

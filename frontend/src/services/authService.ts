@@ -1,5 +1,5 @@
 export function registerAdmin(name: string, email: string, password: string): Promise<void> {
-    return fetch(`${process.env.REACT_APP_API_URL}/register`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/api/register`, {
         method: 'POST',
         body: JSON.stringify({
             name,
@@ -19,7 +19,7 @@ export function registerAdmin(name: string, email: string, password: string): Pr
 }
 
 export function loginAdmin(email: string, password: string): Promise<LoginInfo> {
-    return fetch(`${process.env.REACT_APP_API_URL}/login`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
         method: 'POST',
         body: JSON.stringify({
             email: email,
