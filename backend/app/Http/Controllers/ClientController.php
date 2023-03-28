@@ -12,7 +12,7 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         $user = $request->get('user');
-        $clients = $user->clients();
+        $clients = $user->clients;
         return $this->sendResponse(ClientResource::collection($clients), 'Clients retrieved successfully.');
     }
 
