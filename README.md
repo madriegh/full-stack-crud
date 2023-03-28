@@ -2,6 +2,8 @@
 
 ## Backend
 The Laravel backend project is located in the `backend` folder.
+The project uses an SQLite database for quick setup.
+
 To run:
 - Copy `.env.example` to `.env`
 - Run `composer install`
