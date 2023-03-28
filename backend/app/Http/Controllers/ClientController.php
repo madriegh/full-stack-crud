@@ -24,16 +24,21 @@ class ClientController extends Controller
         $validator = Validator::make($input, [
             'name' => ['required'],
             'email' => ['required', 'email'],
+            'picture' => ['required', 'file'],
         ]);
 
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
+        $filename = time().'.'.$input['picture']->extension();
+        $input['picture']->storeAs('public/uploads', $filename);
+
         $client = Client::create([
             'admin_id' => $user->id,
             'name' => $input['name'],
             'email' => $input['email'],
+            'picture' => $filename,
         ]);
 
         return $this->sendResponse(new ClientResource($client), 'Client created successfully.');
@@ -79,8 +84,12 @@ class ClientController extends Controller
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
+        $filename = time().'.'.$input['picture']->extension();
+        $input['picture']->storeAs('public/uploads', $filename);
+
         $client->name = $input['name'];
         $client->email = $input['email'];
+        $client->picture = $filename;
         $client->save();
 
         return $this->sendResponse(new ClientResource($client), 'Client updated successfully.');
