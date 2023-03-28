@@ -6,6 +6,7 @@ To run:
 - Copy `.env.example` to `.env`
 - Run `composer install`
 - Run `php artisan migrate`
+- Run `php artisan link:storage`
 - Run `php artisan serve`
 
 
