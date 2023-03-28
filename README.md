@@ -14,6 +14,7 @@ To React frontend project is located in the `frontend` folder.
 To run:
 - Set the backend url in `.env` file
 - `yarn install`
+- `yarn build`
 - `yarn start`
 
 ### Future improvements
@@ -26,3 +27,4 @@ To run:
 - Comments and documentation
 - Generalize backend authorization policy
 - Responsive design
+- File uploads clean up
